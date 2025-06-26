@@ -93,11 +93,7 @@ export const updateProfile = async (req, res) => {
     if (!profilePic) {
       return res.status(400).json({ message: "Profile pic is required" });
     }
-    // Check base64 size (approximate)
-    const imageSizeInBytes = Math.ceil((profilePic.length * 3) / 4) - (profilePic.endsWith('==') ? 2 : profilePic.endsWith('=') ? 1 : 0);
-    if (imageSizeInBytes > 10 * 1024 * 1024) {
-      return res.status(400).json({ message: "Profile picture size should not exceed 10MB" });
-    }
+
     const uploadResponse = await cloudinary.uploader.upload(profilePic);
     const updatedUser = await User.findByIdAndUpdate(
       userId,

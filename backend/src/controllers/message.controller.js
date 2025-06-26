@@ -43,11 +43,6 @@ export const sendMessage = async (req, res) => {
 
     let imageUrl;
     if (image) {
-      // Check base64 size (approximate)
-      const imageSizeInBytes = Math.ceil((image.length * 3) / 4) - (image.endsWith('==') ? 2 : image.endsWith('=') ? 1 : 0);
-      if (imageSizeInBytes > 10 * 1024 * 1024) {
-        return res.status(400).json({ error: "Image size should not exceed 10MB" });
-      }
       // Upload base64 image to cloudinary
       const uploadResponse = await cloudinary.uploader.upload(image);
       imageUrl = uploadResponse.secure_url;
