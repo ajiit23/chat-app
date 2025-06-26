@@ -9,11 +9,12 @@ const ProfilePage = () => {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+    if (file.size > 10 * 1024 * 1024) { // 10MB
+      alert("Profile picture size should not exceed 10MB");
+      return;
+    }
     const reader = new FileReader();
-
     reader.readAsDataURL(file);
-
     reader.onload = async () => {
       const base64Image = reader.result;
       setSelectedImg(base64Image);
